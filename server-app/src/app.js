@@ -1,6 +1,7 @@
 /** npm module imports */
 const express = require('express');
 const mongoose = require('mongoose');
+//const stripe = require("stripe")("pk_test_51JdLtPGpIHjF5QqdH3AHtdr7zbozzzjxgfZZ33Aunfldts6trb6dB4HhCPfVKai8LAPfPMyxbvNAsm7nWU1mCDam005DPTejDH")
 const dotenv = require('dotenv')
 dotenv.config();
 

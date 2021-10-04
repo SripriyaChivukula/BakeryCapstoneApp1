@@ -14,6 +14,16 @@ import ItemsList from "./ItemsList";
 import SelectedItems from "./SelectedItems";
 
 import Login from "./Login";
+import CheckoutForm from "./CheckoutForm";
+
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  CardElement,
+  Elements,
+  useElements,
+  useStripe
+} from "@stripe/react-stripe-js";
+import "./styles.css";
 
 // Our raw data. In a real app we might get this via an API call instead of it being hardcoded.
 /* const TYPE_NAMES = {
@@ -21,6 +31,7 @@ import Login from "./Login";
   vegetables: "vegetable",
 }; */
 
+const stripePromise = loadStripe("pk_test_51JdLtPGpIHjF5QqdH3AHtdr7zbozzzjxgfZZ33Aunfldts6trb6dB4HhCPfVKai8LAPfPMyxbvNAsm7nWU1mCDam005DPTejDH");
 function setToken(userToken) {
   sessionStorage.setItem("token", JSON.stringify(userToken));
 }
@@ -34,6 +45,13 @@ function getToken() {
 const BAKERYTYPE_NAMES = {
   snacks: "snacks",
   beverage: "beverage",
+};
+const ELEMENTS_OPTIONS = {
+  fonts: [
+    {
+      cssSrc: "https://fonts.googleapis.com/css?family=Roboto"
+    }
+  ]
 };
 
 function App(props) {
@@ -111,6 +129,7 @@ function App(props) {
             <StyledLink to="/Snacks">Snacks</StyledLink>
             <StyledLink to="/Beverage">Beverage</StyledLink>
             <StyledLink to="/SelectedItems">Shopping Cart</StyledLink>
+            <StyledLink to="/checkout">Payment</StyledLink>
             {/*  <StyledLink to="/NonFiction">NonFiction</StyledLink> */}
           </nav>
           <Switch>
@@ -137,15 +156,24 @@ function App(props) {
               />
             </Route>
             <Route path="/selecteditems">
+            <Elements stripe={stripePromise} options={ELEMENTS_OPTIONS}>  
               <SelectedItems items={items} />
+              </Elements>
             </Route>
+            
+            <Route path="/checkout">
+            <div className="AppWrapper">
+            <Elements stripe={stripePromise} options={ELEMENTS_OPTIONS}>  
+            <CheckoutForm  />
+              </Elements>
+              </div>
+            </Route>
+            
           </Switch>
         </Router>
-        <div id="intro"><h2>
-             <p>Need a quick Snack or Coffee!!..</p>
-             <p>You are at Right Place.</p>
-            <p>Place an Order and Relax.</p>
-           <p> You will be served right away!!</p> </h2></div>
+        
+           
+           
       </div>
      
     );
